@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
+import VideoPlayer from '@/components/VideoPlayer';
 
 interface Stream {
   id: string;
@@ -35,6 +36,7 @@ const Index = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [history, setHistory] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('home');
+  const [currentStream, setCurrentStream] = useState<Stream | null>(null);
 
   const filteredStreams = mockStreams.filter(stream => {
     const matchesSearch = stream.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -49,8 +51,12 @@ const Index = () => {
   };
 
   const playStream = (id: string) => {
-    if (!history.includes(id)) {
-      setHistory(prev => [id, ...prev].slice(0, 20));
+    const stream = mockStreams.find(s => s.id === id);
+    if (stream) {
+      setCurrentStream(stream);
+      if (!history.includes(id)) {
+        setHistory(prev => [id, ...prev].slice(0, 20));
+      }
     }
   };
 
@@ -335,6 +341,14 @@ const Index = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      {currentStream && (
+        <VideoPlayer
+          streamUrl={currentStream.url}
+          streamName={currentStream.name}
+          onClose={() => setCurrentStream(null)}
+        />
+      )}
     </div>
   );
 };
