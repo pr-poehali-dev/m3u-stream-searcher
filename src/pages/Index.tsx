@@ -15,18 +15,7 @@ interface Stream {
   country?: string;
 }
 
-const mockStreams: Stream[] = [
-  { id: '1', name: 'Big Buck Bunny', category: 'ТВ', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'RU' },
-  { id: '2', name: 'Sintel Trailer', category: 'ТВ', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'RU' },
-  { id: '3', name: 'Apple Demo Stream', category: 'ТВ', url: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', country: 'RU' },
-  { id: '4', name: 'Sample Stream 1', category: 'Спорт', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'RU' },
-  { id: '5', name: 'Sample Stream 2', category: 'Спорт', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'EU' },
-  { id: '6', name: 'Music Video Demo', category: 'Музыка', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'US' },
-  { id: '7', name: 'Radio Stream Demo', category: 'Радио', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'RU' },
-  { id: '8', name: 'Audio Demo', category: 'Радио', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'RU' },
-  { id: '9', name: 'Documentary Sample', category: 'Документальные', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'US' },
-  { id: '10', name: 'Nature Stream', category: 'Документальные', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'US' },
-];
+const mockStreams: Stream[] = [];
 
 const categories = ['Все', 'ТВ', 'Радио', 'Спорт', 'Музыка', 'Документальные'];
 
