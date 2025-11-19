@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 import VideoPlayer from '@/components/VideoPlayer';
+import PlaylistUploader from '@/components/PlaylistUploader';
 
 interface Stream {
   id: string;
@@ -15,11 +16,10 @@ interface Stream {
   country?: string;
 }
 
-const mockStreams: Stream[] = [];
-
-const categories = ['Все', 'ТВ', 'Радио', 'Спорт', 'Музыка', 'Документальные'];
+const defaultCategories = ['Все', 'ТВ', 'Радио', 'Спорт', 'Музыка', 'Документальные', 'Разное'];
 
 const Index = () => {
+  const [streams, setStreams] = useState<Stream[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -27,7 +27,13 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [currentStream, setCurrentStream] = useState<Stream | null>(null);
 
-  const filteredStreams = mockStreams.filter(stream => {
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set<string>(['Все']);
+    streams.forEach(stream => uniqueCategories.add(stream.category));
+    return Array.from(uniqueCategories);
+  }, [streams]);
+
+  const filteredStreams = streams.filter(stream => {
     const matchesSearch = stream.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'Все' || stream.category === selectedCategory;
     return matchesSearch && matchesCategory;
@@ -40,7 +46,7 @@ const Index = () => {
   };
 
   const playStream = (id: string) => {
-    const stream = mockStreams.find(s => s.id === id);
+    const stream = streams.find(s => s.id === id);
     if (stream) {
       setCurrentStream(stream);
       if (!history.includes(id)) {
@@ -49,8 +55,13 @@ const Index = () => {
     }
   };
 
-  const favoriteStreams = mockStreams.filter(s => favorites.includes(s.id));
-  const historyStreams = history.map(id => mockStreams.find(s => s.id === id)).filter(Boolean) as Stream[];
+  const handleStreamsLoaded = (loadedStreams: Stream[]) => {
+    setStreams(loadedStreams);
+    setSelectedCategory('Все');
+  };
+
+  const favoriteStreams = streams.filter(s => favorites.includes(s.id));
+  const historyStreams = history.map(id => streams.find(s => s.id === id)).filter(Boolean) as Stream[];
 
   return (
     <div className="min-h-screen bg-background">
@@ -87,6 +98,10 @@ const Index = () => {
           </TabsList>
 
           <TabsContent value="home" className="space-y-6">
+            <PlaylistUploader onStreamsLoaded={handleStreamsLoaded} />
+            
+            {streams.length > 0 && (
+              <>
             <div className="relative">
               <Icon name="Search" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={20} />
               <Input
@@ -161,11 +176,13 @@ const Index = () => {
               ))}
             </div>
 
-            {filteredStreams.length === 0 && (
+            {filteredStreams.length === 0 && streams.length > 0 && (
               <div className="text-center py-12">
                 <Icon name="Search" size={48} className="mx-auto text-muted-foreground mb-4" />
                 <p className="text-muted-foreground text-lg">Потоки не найдены</p>
               </div>
+            )}
+            </>
             )}
           </TabsContent>
 
