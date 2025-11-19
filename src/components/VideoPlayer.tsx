@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import Hls from 'hls.js';
 import Icon from '@/components/ui/icon';
 import { Card } from '@/components/ui/card';
 
@@ -10,11 +11,42 @@ interface VideoPlayerProps {
 
 const VideoPlayer = ({ streamUrl, streamName, onClose }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+      });
+      
+      hls.loadSource(streamUrl);
+      hls.attachMedia(video);
+      
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(err => console.log('Autoplay prevented:', err));
+      });
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.log('HLS Error:', data);
+      });
+
+      hlsRef.current = hls;
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = streamUrl;
+      video.addEventListener('loadedmetadata', () => {
+        video.play().catch(err => console.log('Autoplay prevented:', err));
+      });
     }
+
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+      }
+    };
   }, [streamUrl]);
 
   return (
@@ -38,11 +70,8 @@ const VideoPlayer = ({ streamUrl, streamName, onClose }: VideoPlayerProps) => {
             ref={videoRef}
             className="w-full aspect-video"
             controls
-            autoPlay
-          >
-            <source src={streamUrl} type="application/x-mpegURL" />
-            Ваш браузер не поддерживает воспроизведение видео.
-          </video>
+            playsInline
+          />
         </div>
 
         <div className="p-3 bg-muted/50 text-xs text-muted-foreground">

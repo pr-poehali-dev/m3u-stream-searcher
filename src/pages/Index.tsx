@@ -16,16 +16,16 @@ interface Stream {
 }
 
 const mockStreams: Stream[] = [
-  { id: '1', name: 'Первый канал HD', category: 'ТВ', url: 'http://example.com/stream1.m3u8', country: 'RU' },
-  { id: '2', name: 'Россия 1', category: 'ТВ', url: 'http://example.com/stream2.m3u8', country: 'RU' },
-  { id: '3', name: 'НТВ', category: 'ТВ', url: 'http://example.com/stream3.m3u8', country: 'RU' },
-  { id: '4', name: 'Матч ТВ', category: 'Спорт', url: 'http://example.com/stream4.m3u8', country: 'RU' },
-  { id: '5', name: 'Eurosport 1', category: 'Спорт', url: 'http://example.com/stream5.m3u8', country: 'EU' },
-  { id: '6', name: 'MTV Hits', category: 'Музыка', url: 'http://example.com/stream6.m3u8', country: 'US' },
-  { id: '7', name: 'Наше Радио', category: 'Радио', url: 'http://example.com/radio1.m3u8', country: 'RU' },
-  { id: '8', name: 'Europa Plus', category: 'Радио', url: 'http://example.com/radio2.m3u8', country: 'RU' },
-  { id: '9', name: 'Discovery Channel', category: 'Документальные', url: 'http://example.com/stream7.m3u8', country: 'US' },
-  { id: '10', name: 'National Geographic', category: 'Документальные', url: 'http://example.com/stream8.m3u8', country: 'US' },
+  { id: '1', name: 'Big Buck Bunny', category: 'ТВ', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'RU' },
+  { id: '2', name: 'Sintel Trailer', category: 'ТВ', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'RU' },
+  { id: '3', name: 'Apple Demo Stream', category: 'ТВ', url: 'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8', country: 'RU' },
+  { id: '4', name: 'Sample Stream 1', category: 'Спорт', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'RU' },
+  { id: '5', name: 'Sample Stream 2', category: 'Спорт', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'EU' },
+  { id: '6', name: 'Music Video Demo', category: 'Музыка', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'US' },
+  { id: '7', name: 'Radio Stream Demo', category: 'Радио', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'RU' },
+  { id: '8', name: 'Audio Demo', category: 'Радио', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'RU' },
+  { id: '9', name: 'Documentary Sample', category: 'Документальные', url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', country: 'US' },
+  { id: '10', name: 'Nature Stream', category: 'Документальные', url: 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8', country: 'US' },
 ];
 
 const categories = ['Все', 'ТВ', 'Радио', 'Спорт', 'Музыка', 'Документальные'];
